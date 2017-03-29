@@ -1,0 +1,12 @@
+{
+    "name": "azphp/docker-quick-dev",
+    "description": "showing how to docker",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Gordon Forsythe",
+            "email": "baohx2000@gmail.com"
+        }
+    ],
+    "require": {}
+}

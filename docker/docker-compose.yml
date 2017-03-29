@@ -1,0 +1,44 @@
+version: '2'
+
+volumes:
+  mgmt_mysqldata:
+    driver: local
+
+services:
+  mysqlserver:
+    image: mysql
+    container_name: dockerdev_mysql
+    ports:
+      - '33306:3306'
+    environment:
+      MYSQL_DATABASE: dev
+      MYSQL_USER: dev
+      MYSQL_PASSWORD: dev
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mgmt_mysqldata:/var/lib/mysql
+
+  phpserver:
+    build: php/
+    container_name: dockerdev_php
+    volumes:
+      - ../:/var/www/html
+    links:
+      - mysqlserver:mysql
+    networks:
+      - default
+
+  nginxserver:
+    build: nginx/
+    container_name: dockerdev_nginx
+    volumes:
+      - ../:/var/www/html
+    links:
+      - phpserver:phpfpm
+    ports:
+      - "80:80"
+
+networks:
+  default:
+    external:
+      name: mynet
